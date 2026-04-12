@@ -19,10 +19,12 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 //
+//
 type App struct {
 	db        *sql.DB
 	jwtSecret string
 }
+//
 
 var app App
 
