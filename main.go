@@ -147,9 +147,11 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusInternalServerError)
 	_ = json.NewEncoder(w).Encode(map[string]any{
 		"service": "auth-demo",
-		"status":  "ok",
+		"status":  "error",
+		"error":   "intentional demo failure",
 	})
 }
 
@@ -158,15 +160,9 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusMethodNotAllowed)
 		return
 	}
-	ctx, cancel := context.WithTimeout(r.Context(), 2*time.Second)
-	defer cancel()
-	if err := app.db.PingContext(ctx); err != nil {
-		w.WriteHeader(http.StatusServiceUnavailable)
-		_ = json.NewEncoder(w).Encode(map[string]string{"status": "degraded", "error": err.Error()})
-		return
-	}
 	w.Header().Set("Content-Type", "application/json")
-	_ = json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
+	w.WriteHeader(http.StatusInternalServerError)
+	_ = json.NewEncoder(w).Encode(map[string]string{"status": "error", "error": "intentional demo failure"})
 }
 
 func registerHandler(w http.ResponseWriter, r *http.Request) {
