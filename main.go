@@ -147,11 +147,9 @@ func rootHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusInternalServerError)
-	_ = json.NewEncoder(w).Encode(map[string]any{
+	json.NewEncoder(w).Encode(map[string]any{
 		"service": "auth-demo",
-		"status":  "error",
-		"error":   "intentional demo failure",
+		"status":  "ok",
 	})
 }
 
@@ -161,8 +159,7 @@ func healthHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusInternalServerError)
-	_ = json.NewEncoder(w).Encode(map[string]string{"status": "error", "error": "intentional demo failure"})
+	json.NewEncoder(w).Encode(map[string]string{"status": "ok"})
 }
 
 func registerHandler(w http.ResponseWriter, r *http.Request) {
